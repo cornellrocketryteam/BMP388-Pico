@@ -1,12 +1,10 @@
 #include "bmp388.hpp"
-#include <cstdio>
 #include <cmath>
+#include <cstdio>
 #include <cstring>
 
 BMP388::BMP388(i2c_inst_t *i2c_type) {
     i2c = i2c_type;
-
-    //uint8_t dev_addr = BMP388_ADDR;
 
     device.intf = BMP3_I2C_INTF;
     device.read = &i2c_read;
@@ -30,8 +28,8 @@ bool BMP388::begin() {
 
 bool BMP388::read_pressure(float *pressure) {
     uint16_t settings_sel = 0;
-    struct bmp3_settings settings = { 0 };
-    struct bmp3_status status = { { 0 } };
+    struct bmp3_settings settings = {0};
+    struct bmp3_status status = {{0}};
     struct bmp3_data data;
 
     settings.int_settings.drdy_en = BMP3_ENABLE;

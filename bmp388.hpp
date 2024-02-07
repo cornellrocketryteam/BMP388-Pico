@@ -1,10 +1,10 @@
 #ifndef BMP388_HPP
 #define BMP388_HPP
 
-#include "pico/stdlib.h"
-#include "hardware/i2c.h"
 #include "bmp3/bmp3.h"
 #include "bmp3/bmp3_defs.h"
+#include "hardware/i2c.h"
+#include "pico/stdlib.h"
 
 #define BMP388_ADDR (0x77)
 
@@ -54,7 +54,7 @@ private:
 
     /**
      * BMP3 device structure.
-    */
+     */
     struct bmp3_dev device;
 
     static BMP3_INTF_RET_TYPE i2c_read(uint8_t reg_addr, uint8_t *reg_data, uint32_t len, void *intf_ptr);
