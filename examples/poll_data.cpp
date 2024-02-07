@@ -30,7 +30,7 @@ int main() {
         sleep_ms(1000);
     }
 
-    double pressure, altitude;
+    float pressure, altitude;
     bool ret;
 
     while (true) {

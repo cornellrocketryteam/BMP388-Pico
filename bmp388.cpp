@@ -6,30 +6,29 @@
 BMP388::BMP388(i2c_inst_t *i2c_type) {
     i2c = i2c_type;
 
-    uint8_t dev_addr = BMP388_ADDR;
+    //uint8_t dev_addr = BMP388_ADDR;
 
     device.intf = BMP3_I2C_INTF;
     device.read = &i2c_read;
     device.write = &i2c_write;
     device.dummy_byte = 0;
     device.delay_us = &delay_usec;
-    device.intf_ptr = &dev_addr;
+    device.intf_ptr = &i2c;
 }
 
 bool BMP388::begin() {
-    int8_t ret = BMP3_OK;
-
     ret = bmp3_init(&device);
     if (ret != BMP3_OK) {
-        printf("Error: Could not initialize altimeter\n");
+#ifdef VERBOSE
+        fprintf(stderr, "Error: Could not initialize altimeter\n");
+#endif
         return false;
     }
 
     return true;
 }
 
-bool BMP388::read_pressure(double *pressure) {
-    int8_t ret;
+bool BMP388::read_pressure(float *pressure) {
     uint16_t settings_sel = 0;
     struct bmp3_settings settings = { 0 };
     struct bmp3_status status = { { 0 } };
@@ -67,12 +66,12 @@ bool BMP388::read_pressure(double *pressure) {
     if (ret != BMP3_OK) {
         return false;
     }
-    *pressure = data.pressure / 100;
+    *pressure = (float)data.pressure / 100;
     return true;
 }
 
-bool BMP388::read_altitude(double *altitude, double sea_level_pressure) {
-    double pressure = 0.0;
+bool BMP388::read_altitude(float *altitude, float sea_level_pressure) {
+    float pressure = 0.0;
     int ret = read_pressure(&pressure);
     *altitude = 44330.0 * (1.0 - pow(pressure / sea_level_pressure, 0.1903));
     return ret;
