@@ -36,12 +36,13 @@ bool BMP388::read_pressure(float *pressure) {
     settings.press_en = BMP3_ENABLE;
     settings.temp_en = BMP3_ENABLE;
 
-    settings.odr_filter.press_os = BMP3_OVERSAMPLING_2X;
-    settings.odr_filter.temp_os = BMP3_OVERSAMPLING_2X;
-    settings.odr_filter.odr = BMP3_ODR_100_HZ;
+    settings.odr_filter.press_os = BMP3_OVERSAMPLING_8X;
+    settings.odr_filter.temp_os = BMP3_NO_OVERSAMPLING;
+    settings.odr_filter.odr = BMP3_ODR_50_HZ;
+    settings.odr_filter.iir_filter = BMP3_IIR_FILTER_COEFF_3;
 
     settings_sel = BMP3_SEL_PRESS_EN | BMP3_SEL_TEMP_EN | BMP3_SEL_PRESS_OS | BMP3_SEL_TEMP_OS | BMP3_SEL_ODR |
-                   BMP3_SEL_DRDY_EN;
+                   BMP3_SEL_DRDY_EN | BMP3_SEL_IIR_FILTER;
 
     ret = bmp3_set_sensor_settings(settings_sel, &settings, &device);
     if (ret != BMP3_OK) {
