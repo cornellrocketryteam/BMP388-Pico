@@ -13,7 +13,7 @@ BMP388 altimeter(I2C_PORT);
 int main() {
     stdio_init_all();
 
-    i2c_init(I2C_PORT, 100 * 1000);
+    i2c_init(I2C_PORT, 400 * 1000);
     gpio_set_function(I2C_SDA, GPIO_FUNC_I2C);
     gpio_set_function(I2C_SCL, GPIO_FUNC_I2C);
 
@@ -30,23 +30,21 @@ int main() {
         sleep_ms(1000);
     }
 
-    float pressure, altitude;
+    float ref_pressure, altitude;
     bool ret;
 
-    while (true) {
-        ret = altimeter.read_pressure(&pressure);
-        if (!ret) {
-            printf("Altimeter failed to read pressure\n");
-        }
+    altimeter.read_pressure(&ref_pressure);
+    sleep_ms(100);
+    altimeter.read_pressure(&ref_pressure);
 
-        ret = altimeter.read_altitude(&altitude, SEA_LEVEL_PRESSURE_HPA);
+    while (true) {
+        ret = altimeter.read_altitude(&altitude, ref_pressure);
         if (!ret) {
             printf("Altimeter failed to read altitude\n");
         }
 
-        printf("Pressure: %.3f\n", pressure);
         printf("Altitude: %.3f\n", altitude);
-        sleep_ms(1000);
+        sleep_ms(40);
     }
 
     return 0;

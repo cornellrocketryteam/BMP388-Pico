@@ -23,14 +23,8 @@ bool BMP388::begin() {
         return false;
     }
 
-    return true;
-}
-
-bool BMP388::read_pressure(float *pressure) {
     uint16_t settings_sel = 0;
     struct bmp3_settings settings = {0};
-    struct bmp3_status status = {{0}};
-    struct bmp3_data data;
 
     settings.int_settings.drdy_en = BMP3_ENABLE;
     settings.press_en = BMP3_ENABLE;
@@ -55,6 +49,13 @@ bool BMP388::read_pressure(float *pressure) {
     if (ret != BMP3_OK) {
         return false;
     }
+
+    return true;
+}
+
+bool BMP388::read_pressure(float *pressure) {
+    struct bmp3_status status = {{0}};
+    struct bmp3_data data;
 
     ret = bmp3_get_status(&status, &device);
     if (ret != BMP3_OK) {
