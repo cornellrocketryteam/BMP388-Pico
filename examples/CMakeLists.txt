@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.27)
+cmake_minimum_required(VERSION 3.22)
 
 # Pull in SDK (must be before project)
 include(pico_sdk_import.cmake)
@@ -22,10 +22,13 @@ add_executable(${PROJECT_NAME}
     ../bmp3/bmp3.c
 )
 # Pull in common dependencies
-target_link_libraries(${PROJECT_NAME} pico_stdlib hardware_i2c)
+target_link_libraries(${PROJECT_NAME}
+    pico_stdlib
+    hardware_i2c
+)
 
 pico_enable_stdio_usb(${PROJECT_NAME} 1)
 pico_enable_stdio_uart(${PROJECT_NAME} 0)
 
-# Create map/bin/hex file etc.
+# Create uf2 file
 pico_add_uf2_output(${PROJECT_NAME})

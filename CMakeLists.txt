@@ -6,6 +6,6 @@ target_sources(BMP388-Pico INTERFACE
 )
 
 target_link_libraries(BMP388-Pico INTERFACE
-    hardware_i2c
     pico_stdlib
+    hardware_i2c
 )

@@ -43,19 +43,21 @@ public:
 
 private:
     /**
-     * Return value for BMP3 library calls.
-     */
-    int8_t ret = BMP3_OK;
-
-    /**
-     * The I2C bus.
+     * The I2C bus
      */
     i2c_inst_t *i2c;
 
     /**
-     * BMP3 device structure.
+     * BMP3 device structures
      */
     struct bmp3_dev device;
+    struct bmp3_status status = {{0}};
+    struct bmp3_data data;
+
+    /**
+     * The current pressure reading
+     */
+    float pressure;
 
     static BMP3_INTF_RET_TYPE i2c_read(uint8_t reg_addr, uint8_t *reg_data, uint32_t len, void *intf_ptr);
     static BMP3_INTF_RET_TYPE i2c_write(uint8_t reg_addr, const uint8_t *reg_data, uint32_t len, void *intf_ptr);

@@ -26,25 +26,24 @@ int main() {
     printf("Connected\n");
 
     while (!altimeter.begin()) {
-        printf("Altimeter failed to initialize\n");
+        printf("Error: Altimeter failed to initialize\n");
         sleep_ms(1000);
     }
 
     float ref_pressure, altitude;
-    bool ret;
 
+    // The first reading of the BMP388 is always garbage
     altimeter.read_pressure(&ref_pressure);
     sleep_ms(100);
     altimeter.read_pressure(&ref_pressure);
 
     while (true) {
-        ret = altimeter.read_altitude(&altitude, ref_pressure);
-        if (!ret) {
-            printf("Altimeter failed to read altitude\n");
+        if (!altimeter.read_altitude(&altitude, ref_pressure)) {
+            printf("Error: Altimeter failed to read altitude\n");
         }
 
         printf("Altitude: %.3f\n", altitude);
-        sleep_ms(40);
+        sleep_ms(20);
     }
 
     return 0;
