@@ -59,12 +59,14 @@ bool BMP388::read_pressure(float *pressure) {
     }
 
     *pressure = (float)data.pressure / 100;
+    temp = (float)data.temperature;
     return true;
 }
 
-bool BMP388::read_altitude(float *altitude, float sea_level_pressure) {
+bool BMP388::read_data(float *altitude, float *temperature, float sea_level_pressure) {
     if (read_pressure(&pressure)) {
         *altitude = 44330.0 * (1.0 - pow(pressure / sea_level_pressure, 0.1903));
+        *temperature = temp;
         return true;
     }
     return false;

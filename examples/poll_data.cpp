@@ -30,7 +30,7 @@ int main() {
         sleep_ms(1000);
     }
 
-    float ref_pressure, altitude;
+    float ref_pressure, altitude, temperature;
 
     // The first reading of the BMP388 is always garbage
     altimeter.read_pressure(&ref_pressure);
@@ -38,11 +38,12 @@ int main() {
     altimeter.read_pressure(&ref_pressure);
 
     while (true) {
-        if (!altimeter.read_altitude(&altitude, ref_pressure)) {
+        if (!altimeter.read_data(&altitude, &temperature, ref_pressure)) {
             printf("Error: Altimeter failed to read altitude\n");
         }
 
         printf("Altitude: %.3f\n", altitude);
+        printf("Temperature: %.3f\n\n", temperature);
         sleep_ms(20);
     }
 

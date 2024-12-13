@@ -36,10 +36,11 @@ public:
      /**
      * Reads an altitude value in meters.
      * @param pressure The resulting altitude
+     * @param temperature The resulting temperature
      * @param sea_level_pressure Sea level pressure, in hectopascals, necessary for relative altitudes
      * @return True on successful read, false otherwise
      */
-    bool read_altitude(float *altitude, float sea_level_pressure);
+    bool read_data(float *altitude, float *temperature, float sea_level_pressure);
 
 private:
     /**
@@ -58,6 +59,11 @@ private:
      * The current pressure reading
      */
     float pressure;
+
+    /**
+     * The current temperature reading
+     */
+    float temp;
 
     static BMP3_INTF_RET_TYPE i2c_read(uint8_t reg_addr, uint8_t *reg_data, uint32_t len, void *intf_ptr);
     static BMP3_INTF_RET_TYPE i2c_write(uint8_t reg_addr, const uint8_t *reg_data, uint32_t len, void *intf_ptr);
