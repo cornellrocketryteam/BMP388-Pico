@@ -73,10 +73,10 @@ bool BMP388::read_data(float *altitude, float *temperature, float sea_level_pres
 }
 
 BMP3_INTF_RET_TYPE BMP388::i2c_read(uint8_t reg_addr, uint8_t *reg_data, uint32_t len, void *intf_ptr) {
-    if (i2c_write_timeout_us(i2c0, BMP388_ADDR, &reg_addr, 1, true, BYTE_TIMEOUT_US) < 1) {
+    if (i2c_write_timeout_us(i2c0, BMP388_ADDR, &reg_addr, 1, true, BMP388_BYTE_TIMEOUT_US) < 1) {
         return 1;
     }
-    if (i2c_read_timeout_us(i2c0, BMP388_ADDR, reg_data, len, false, BYTE_TIMEOUT_US) < 1) {
+    if (i2c_read_timeout_us(i2c0, BMP388_ADDR, reg_data, len, false, len * BMP388_BYTE_TIMEOUT_US) < 1) {
         return 1;
     }
     return BMP3_INTF_RET_SUCCESS;
@@ -87,7 +87,7 @@ BMP3_INTF_RET_TYPE BMP388::i2c_write(uint8_t reg_addr, const uint8_t *reg_data, 
     buf[0] = reg_addr;
     memcpy(&buf[1], reg_data, len);
 
-    if (i2c_write_timeout_us(i2c0, BMP388_ADDR, buf, len + 1, false, BYTE_TIMEOUT_US) < 1) {
+    if (i2c_write_timeout_us(i2c0, BMP388_ADDR, buf, len + 1, false, (len + 1) * BMP388_BYTE_TIMEOUT_US) < 1) {
         return 1;
     }
     return BMP3_INTF_RET_SUCCESS;

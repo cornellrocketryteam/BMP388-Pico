@@ -8,7 +8,7 @@
 
 #define BMP388_ADDR (0x77)
 
-#define BYTE_TIMEOUT_US (1500)
+#define BMP388_BYTE_TIMEOUT_US (1500)
 
 /**
  * Representation of the BMP388 sensor.
